@@ -83,7 +83,8 @@ public class UserServiceTest {
     @Test
     void userCreateDto_를_이용하여_유저를_생성할_수_있다() {
         // given
-        UserCreate userCreate = UserCreate.builder()
+        UserCreate userCreate =
+            UserCreate.builder()
             .email("kok202@kakao.com")
             .address("Gyeongi")
             .nickname("kok202-k")
