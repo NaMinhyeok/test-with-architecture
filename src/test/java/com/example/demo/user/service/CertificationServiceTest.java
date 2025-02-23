@@ -1,7 +1,6 @@
 package com.example.demo.user.service;
 
 import com.example.demo.mock.FakeMailSender;
-import org.assertj.core.api.BDDAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
