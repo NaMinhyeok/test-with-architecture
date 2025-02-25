@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Builder
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserCreateService, UserReadService, UserUpdateService, AuthenticationService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final CertificationService certificationService;
@@ -36,8 +36,8 @@ public class UserServiceImpl implements UserCreateService, UserReadService, User
             .orElseThrow(() -> new ResourceNotFoundException("Users", id));
     }
 
-    @Override
     @Transactional
+    @Override
     public User create(UserCreate userCreate) {
         User user = User.from(userCreate, uuidHolder);
         user = userRepository.save(user);
@@ -45,8 +45,8 @@ public class UserServiceImpl implements UserCreateService, UserReadService, User
         return user;
     }
 
-    @Override
     @Transactional
+    @Override
     public User update(long id, UserUpdate userUpdate) {
         User user = getById(id);
         user = user.update(userUpdate);
@@ -54,16 +54,16 @@ public class UserServiceImpl implements UserCreateService, UserReadService, User
         return user;
     }
 
-    @Override
     @Transactional
+    @Override
     public void login(long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Users", id));
         user = user.login(clockHolder);
         userRepository.save(user);
     }
 
-    @Override
     @Transactional
+    @Override
     public void verifyEmail(long id, String certificationCode) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Users", id));
         user = user.certificate(certificationCode);

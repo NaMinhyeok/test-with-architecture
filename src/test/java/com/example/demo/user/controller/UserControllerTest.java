@@ -3,17 +3,14 @@ package com.example.demo.user.controller;
 import com.example.demo.common.domain.exception.CertificationCodeNotMatchedException;
 import com.example.demo.common.domain.exception.ResourceNotFoundException;
 import com.example.demo.mock.TestContainer;
-import com.example.demo.user.controller.port.UserReadService;
 import com.example.demo.user.controller.response.MyProfileResponse;
 import com.example.demo.user.controller.response.UserResponse;
 import com.example.demo.user.domain.User;
 import com.example.demo.user.domain.UserStatus;
 import com.example.demo.user.domain.UserUpdate;
-import com.example.demo.user.infrastructure.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -22,7 +19,6 @@ import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class UserControllerTest {
 
@@ -41,7 +37,7 @@ public class UserControllerTest {
                 .lastLoginAt(100L)
             .build());
         // when
-        ResponseEntity<UserResponse> result = testContainer.userController.getUserById(1);
+        ResponseEntity<UserResponse> result = testContainer.userController.getById(1);
         // then
         then(result.getStatusCode()).isEqualTo(HttpStatus.OK);
         then(result).extracting("body.id", "body.email", "body.nickname", "body.status", "body.lastLoginAt")
@@ -55,7 +51,7 @@ public class UserControllerTest {
             .build();
         // when
         // then
-        thenThrownBy(() -> testContainer.userController.getUserById(1)
+        thenThrownBy(() -> testContainer.userController.getById(1)
         ).isInstanceOf(ResourceNotFoundException.class);
     }
 
